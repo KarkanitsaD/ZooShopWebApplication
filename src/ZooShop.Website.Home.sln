@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZooShop.Website.Home", "ZooShop\ZooShop.Website.Home.csproj", "{C9F8EAFA-80E1-4678-93F9-9429496B00EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZooShop.Website.Home", "ZooShop.Website.Home\ZooShop.Website.Home.csproj", "{C9F8EAFA-80E1-4678-93F9-9429496B00EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FADBC300-E993-4DC6-A4F9-67AF1175F7F7}"
 EndProject
