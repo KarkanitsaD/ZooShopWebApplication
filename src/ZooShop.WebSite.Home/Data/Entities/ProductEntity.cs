@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace ZooShop.Data.Entities
+namespace ZooShop.Website.Home.Data.Entities
 {
     public class ProductEntity
     {

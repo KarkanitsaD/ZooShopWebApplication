@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ZooShop.Data.Contracts;
-using ZooShop.Data;
-using ZooShop.Data.Entities;
+using ZooShop.Website.Home.Data;
+using ZooShop.Website.Home.Data.Contracts;
+using ZooShop.Website.Home.Data.Entities;
 
-namespace ZooShop.Business
+namespace ZooShop.Website.Home.Business
 {
     public class UnitOfWork
     {
-        private ZooShopContext _context = new ZooShopContext();
+        private readonly ZooShopContext _context = new();
 
         private IRepository<UserEntity> _userRepository;
         private IRepository<CategoryEntity> _categoryRepository;

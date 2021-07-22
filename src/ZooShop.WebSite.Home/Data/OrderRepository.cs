@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ZooShop.Data.Entities;
-using ZooShop.Data.Contracts;
-namespace ZooShop.Data
+using ZooShop.Website.Home.Data.Contracts;
+using ZooShop.Website.Home.Data.Entities;
+
+namespace ZooShop.Website.Home.Data
 {
     public class OrderRepository : IRepository<OrderEntity>
     {
@@ -12,7 +13,7 @@ namespace ZooShop.Data
             _context = db;
         }
 
-        private ZooShopContext _context;
+        private readonly ZooShopContext _context;
 
         public void Create(OrderEntity item)
         {

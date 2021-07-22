@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using ZooShop.Business.Contracts;
-using ZooShop.Data.Entities;
-using ZooShop.Data;
-
-namespace ZooShop.Business.Services
+﻿namespace ZooShop.Website.Home.Business
 {
     public class CartService/*: ICartService*/
     {

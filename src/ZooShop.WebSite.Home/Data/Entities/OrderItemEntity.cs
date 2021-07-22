@@ -1,5 +1,5 @@
 ﻿
-namespace ZooShop.Data.Entities
+namespace ZooShop.Website.Home.Data.Entities
 {
     public class OrderItemEntity
     {

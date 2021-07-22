@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ZooShop.Data.Entities
+namespace ZooShop.Website.Home.Data.Entities
 {
     public class UserEntity
     {

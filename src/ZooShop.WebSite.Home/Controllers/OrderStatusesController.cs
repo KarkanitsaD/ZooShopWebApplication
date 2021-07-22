@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using ZooShop.Business.Contracts;
-using ZooShop.Data.Entities;
+using ZooShop.Website.Home.Business.Contracts;
+using ZooShop.Website.Home.Data.Entities;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ZooShop.Representation
+namespace ZooShop.Website.Home.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class OrderStatusController : ControllerBase
     {
-        private IOrderStatusService _orderStatusService;
+        private readonly IOrderStatusService _orderStatusService;
 
         public OrderStatusController(IOrderStatusService orderStatusService)
         {

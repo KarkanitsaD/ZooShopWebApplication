@@ -1,15 +1,14 @@
-﻿using AutoMapper;
-using System.Collections.Generic;
-using ZooShop.Business.Contracts;
-using ZooShop.Data.Entities;
-using ZooShop.Data;
-using ZooShop.Business.DTOs;
+﻿using System.Collections.Generic;
+using AutoMapper;
+using ZooShop.Website.Home.Business.Contracts;
+using ZooShop.Website.Home.Business.DTOs;
+using ZooShop.Website.Home.Data.Entities;
 
-namespace ZooShop.Business.Services
+namespace ZooShop.Website.Home.Business
 {
     public class UserService : IUserService
     {
-        private UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public UserService(UnitOfWork unitOfWork)
         {

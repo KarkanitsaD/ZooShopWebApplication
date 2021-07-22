@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using ZooShop.Business.Contracts;
-using ZooShop.Data.Entities;
-using ZooShop.Data;
+using ZooShop.Website.Home.Business.Contracts;
+using ZooShop.Website.Home.Data.Entities;
 
-
-namespace ZooShop.Business.Services
+namespace ZooShop.Website.Home.Business
 {
     public class ProductService : IProductService
     {
 
-        private UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public ProductService(UnitOfWork unitOfWork)
         {

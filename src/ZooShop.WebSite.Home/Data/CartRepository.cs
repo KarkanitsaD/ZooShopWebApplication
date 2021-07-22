@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ZooShop.Data.Entities;
-using ZooShop.Data.Contracts;
+using ZooShop.Website.Home.Data.Entities;
+using ZooShop.Website.Home.Data.Contracts;
 
-namespace ZooShop.Data.Repositories
+namespace ZooShop.Website.Home.Data.Repositories
 {
     public class CartRepository /*: IRepository<Cart>*/
     {

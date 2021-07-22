@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using ZooShop.Data.Entities;
+using ZooShop.Website.Home.Data.Entities;
 
 
-namespace ZooShop.Business.Contracts
+namespace ZooShop.Website.Home.Business.Contracts
 {
     public interface ICartService
     {

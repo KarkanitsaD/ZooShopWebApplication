@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZooShop.Data.Contracts
+namespace ZooShop.Website.Home.Data.Contracts
 {
     public interface IRepository<T> where T : class
     {        

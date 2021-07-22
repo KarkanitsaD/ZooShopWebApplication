@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using ZooShop.Business.DTOs;
-using ZooShop.Data.Entities;
+using ZooShop.Website.Home.Business.DTOs;
+using ZooShop.Website.Home.Data.Entities;
 
 
-namespace ZooShop.Business.Contracts
+namespace ZooShop.Website.Home.Business.Contracts
 {
     public interface IUserService
     {

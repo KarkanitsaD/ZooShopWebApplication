@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using ZooShop.Data.Entities;
+using ZooShop.Website.Home.Data.Entities;
 
-namespace ZooShop.Data
+namespace ZooShop.Website.Home.Data
 {
     public class ZooShopContext: DbContext
     {

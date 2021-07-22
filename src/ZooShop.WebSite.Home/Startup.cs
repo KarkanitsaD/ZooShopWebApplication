@@ -2,12 +2,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ZooShop.Data.Contracts;
-using ZooShop.Business.Contracts;
-using ZooShop.Business.Services;
-using ZooShop.Business;
+using ZooShop.Website.Home.Business;
+using ZooShop.Website.Home.Business.Contracts;
 
-namespace ZooShop
+namespace ZooShop.Website.Home.WebSite.Home
 {
     public class Startup
     {
