@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ZooShop.Website.Home.Data;
-using ZooShop.Website.Home.Data.Contracts;
+﻿using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
-namespace ZooShop.Website.Home.Business
+namespace ZooShop.Website.Home.Data
 {
     public class UnitOfWork
     {

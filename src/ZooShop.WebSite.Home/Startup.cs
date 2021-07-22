@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ZooShop.Website.Home.Business;
 using ZooShop.Website.Home.Business.Contracts;
+using ZooShop.Website.Home.Data;
 
 namespace ZooShop.Website.Home.WebSite.Home
 {

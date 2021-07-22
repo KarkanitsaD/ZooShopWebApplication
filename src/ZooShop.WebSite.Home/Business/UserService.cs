@@ -2,6 +2,7 @@
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.DTOs;
+using ZooShop.Website.Home.Data;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Business

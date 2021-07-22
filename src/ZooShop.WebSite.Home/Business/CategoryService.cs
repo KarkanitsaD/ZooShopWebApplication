@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Contracts;
+using ZooShop.Website.Home.Data;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Business
