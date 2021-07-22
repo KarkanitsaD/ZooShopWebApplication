@@ -1,69 +1,22 @@
-﻿using ZooShop.Website.Home.Data.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Data
 {
     public class UnitOfWork
     {
-        private readonly ZooShopContext _context = new();
+        private readonly ZooShopContext _context;
+        private readonly Dictionary<string, object> _repositories; 
 
-        private IRepository<UserEntity> _userRepository;
-        private IRepository<CategoryEntity> _categoryRepository;
-        private IRepository<OrderEntity> _orderRepository;
-        private IRepository<OrderStatusEntity> _orderStatusRepository;
-        private IRepository<ProductEntity> _productRepository;
-        private IRepository<CartEntity> _cartRepository;
-
-
-        public IRepository<UserEntity> Users
+        public UnitOfWork(ZooShopContext context)
         {
-            get
-            {
-                if (_userRepository == null)
-                    _userRepository = new UserRepository(_context);
-                return _userRepository;
-            }
-        }
-
-        public IRepository<CategoryEntity> Categories
-        {
-            get
-            {
-                if (_categoryRepository == null)
-                    _categoryRepository = new CategoryRepository(_context);
-                return _categoryRepository;
-            }
-        }
-
-        public IRepository<OrderEntity> Orders
-        {
-            get
-            {
-                if (_orderRepository == null)
-                    _orderRepository = new OrderRepository(_context);
-                return _orderRepository;
-            }
-        }
-        
-        public IRepository<OrderStatusEntity> OrderStatuses
-        {
-            get
-            {
-                if (_orderStatusRepository == null)
-                    _orderStatusRepository = new OrderStatusRepository(_context);
-                return _orderStatusRepository;
-            }
-        }
-
-
-        public IRepository<ProductEntity> Products
-        {
-            get
-            {
-                if (_productRepository == null)
-                    _productRepository = new ProductRepository(_context);
-                return _productRepository;
-            }
+            _context = context;
+            _repositories = new Dictionary<string, object>();
         }
 
         public void Save()
@@ -71,5 +24,17 @@ namespace ZooShop.Website.Home.Data
             _context.SaveChanges();
         }
 
+        public GenericRepository<T> GetRepository<T>() where T : class
+        {
+
+            string key = typeof(T).ToString();
+            if (!_repositories.ContainsKey(key))
+            {
+                var repository = new GenericRepository<T>(_context);
+                _repositories.Add(key, repository);
+            }
+
+            return (GenericRepository<T>)_repositories[key];
+        }
     }
 }

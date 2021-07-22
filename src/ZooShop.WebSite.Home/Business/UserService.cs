@@ -18,19 +18,19 @@ namespace ZooShop.Website.Home.Business
 
         public void Create(UserEntity user)
         {
-            _unitOfWork.Users.Create(user);
+            _unitOfWork.GetRepository<UserEntity>().Create(user);
             _unitOfWork.Save();
         }
 
         public void Delete(int id)
         {
-            _unitOfWork.Users.Delete(id);
+            _unitOfWork.GetRepository<UserEntity>().Delete(id);
             _unitOfWork.Save();
         }
 
         public UserEntity Get(int id)
         {
-            return _unitOfWork.Users.Get(id);
+            return _unitOfWork.GetRepository<UserEntity>().Get(id);
         }
 
         public IEnumerable<UserDto> GetAll()
@@ -44,13 +44,13 @@ namespace ZooShop.Website.Home.Business
 
             var mapper = new Mapper(config);
 
-            var users = mapper.Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.Users.GetAll());
+            var users = mapper.Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
             return users;
         }
 
         public void Update(UserEntity user)
         {
-            _unitOfWork.Users.Update(user);
+            _unitOfWork.GetRepository<UserEntity>().Update(user);
             _unitOfWork.Save();
         }
 

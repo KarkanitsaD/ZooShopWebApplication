@@ -18,29 +18,29 @@ namespace ZooShop.Website.Home.Business
 
         public void Create(OrderEntity order)
         {
-            _unitOfWork.Orders.Create(order);
+            _unitOfWork.GetRepository<OrderEntity>().Create(order);
             _unitOfWork.Save();
         }
 
         public void Delete(int id)
         {
-            _unitOfWork.Orders.Delete(id);
+            _unitOfWork.GetRepository<OrderEntity>().Delete(id);
             _unitOfWork.Save();
         }
 
         public OrderEntity Get(int id)
         {
-            return _unitOfWork.Orders.Get(id);
+            return _unitOfWork.GetRepository<OrderEntity>().Get(id);
         }
 
         public IEnumerable<OrderEntity> GetAll()
         {
-            return _unitOfWork.Orders.GetAll();
+            return _unitOfWork.GetRepository<OrderEntity>().GetAll();
         }
 
         public void Update(OrderEntity order)
         {
-            _unitOfWork.Orders.Update(order);
+            _unitOfWork.GetRepository<OrderEntity>().Update(order);
             _unitOfWork.Save();
         }
     }

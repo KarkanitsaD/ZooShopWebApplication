@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ZooShop.Website.Home.WebSite.Home
+namespace ZooShop.Website.Home
 {
     public class Program
     {
