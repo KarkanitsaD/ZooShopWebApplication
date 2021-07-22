@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data.Contracts;
 
@@ -25,9 +23,9 @@ namespace ZooShop.Website.Home.Data
             _table.Add(item);
         }
 
-        public void Delete(int id)
+        public void Delete(T item)
         {
-            throw new NotImplementedException();
+            _table.Remove(item);
         }
 
         public T Get(int id)

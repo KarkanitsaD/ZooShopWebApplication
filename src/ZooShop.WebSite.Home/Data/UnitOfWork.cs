@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using ZooShop.Website.Home.Data.Contracts;
-using ZooShop.Website.Home.Data.Entities;
+﻿using System.Collections.Generic;
+
 
 namespace ZooShop.Website.Home.Data
 {
