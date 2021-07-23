@@ -24,7 +24,9 @@ namespace ZooShop.Website.Home.Business
 
         public void Delete(int id)
         {
-            _unitOfWork.GetRepository<UserEntity>().Delete(id);
+            var repository = _unitOfWork.GetRepository<UserEntity>();
+            var user = repository.Get(id);
+            repository.Delete(user);
             _unitOfWork.Save();
         }
 
@@ -54,12 +56,6 @@ namespace ZooShop.Website.Home.Business
             _unitOfWork.Save();
         }
 
-        //public void AddItemToCart(int userId, CartItem cartItem)
-        //{
-        //    var user = _unitOfWork.Users.Get(userId);
-        //    user.Cart.CartItems.Add(cartItem);
-        //    _unitOfWork.Users.Update(user);
-        //    _unitOfWork.Save();
-        //}
+        
     }
 }

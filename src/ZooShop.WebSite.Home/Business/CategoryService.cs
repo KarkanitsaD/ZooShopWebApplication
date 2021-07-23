@@ -23,7 +23,9 @@ namespace ZooShop.Website.Home.Business
 
         public void Delete(int id)
         {
-            _unitOfWork.GetRepository<CategoryEntity>().Delete(id);
+            var repository = _unitOfWork.GetRepository<CategoryEntity>();
+            var category = repository.Get(id);
+            repository.Delete(category);
             _unitOfWork.Save();
         }
 

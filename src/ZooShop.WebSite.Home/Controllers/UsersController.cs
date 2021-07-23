@@ -54,5 +54,6 @@ namespace ZooShop.Website.Home.Controllers
         {
             _userService.Delete(id);
         }
+
     }
 }

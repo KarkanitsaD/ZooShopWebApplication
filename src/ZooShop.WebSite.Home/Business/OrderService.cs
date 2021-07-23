@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data;
 using ZooShop.Website.Home.Data.Entities;
@@ -24,7 +25,13 @@ namespace ZooShop.Website.Home.Business
 
         public void Delete(int id)
         {
-            _unitOfWork.GetRepository<OrderEntity>().Delete(id);
+            var repository = _unitOfWork.GetRepository<OrderEntity>();
+            var order = repository.Get(id);
+            if (order == null)
+            {
+                throw new Exception("test exception");
+            }
+            repository.Delete(order);
             _unitOfWork.Save();
         }
 

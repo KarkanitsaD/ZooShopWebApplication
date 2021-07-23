@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data.Contracts;
@@ -41,6 +42,11 @@ namespace ZooShop.Website.Home.Data
         public void Update(T item)
         {
             _table.Update(item);
+        }
+
+        public IEnumerable<T> Get(Func<T, bool> predicate)
+        {
+            return _table.Where(predicate).ToList();
         }
     }
 }
