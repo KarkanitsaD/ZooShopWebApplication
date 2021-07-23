@@ -9,6 +9,7 @@ namespace ZooShop.Website.Home.Data.Contracts
         IEnumerable<T> Get(Func<T, bool> predicate);
         T Get(int id);
         void Create(T item);
+        void CreateRange(List<T> items);
         void Update(T item);
         void Delete(T item);
          

@@ -19,17 +19,17 @@ namespace ZooShop.Website.Home.Data
             _context.SaveChanges();
         }
 
-        public GenericRepository<T> GetRepository<T>() where T : class
+        public Repository<T> GetRepository<T>() where T : class, new()
         {
 
             string key = typeof(T).ToString();
             if (!_repositories.ContainsKey(key))
             {
-                var repository = new GenericRepository<T>(_context);
+                var repository = new Repository<T>(_context);
                 _repositories.Add(key, repository);
             }
 
-            return (GenericRepository<T>)_repositories[key];
+            return (Repository<T>)_repositories[key];
         }
     }
 }
