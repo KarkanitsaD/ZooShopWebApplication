@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data;
+using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Business
@@ -8,9 +9,9 @@ namespace ZooShop.Website.Home.Business
     public class ProductService : IProductService
     {
 
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductService(UnitOfWork unitOfWork)
+        public ProductService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
