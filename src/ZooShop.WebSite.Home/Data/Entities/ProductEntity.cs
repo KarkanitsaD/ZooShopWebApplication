@@ -23,8 +23,6 @@ namespace ZooShop.Website.Home.Data.Entities
         public int? Quantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        
-        //public virtual ICollection<Cart> Carts { get; set; }
 
         public virtual ICollection<UserEntity> Users { get; set; }
         public virtual ICollection<CartItemEntity> CartItems { get; set; }
