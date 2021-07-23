@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using ZooShop.Website.Home.Business;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data;
+using ZooShop.Website.Home.Data.Contracts;
 
 namespace ZooShop.Website.Home
 {
@@ -15,7 +16,7 @@ namespace ZooShop.Website.Home
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ZooShopContext>();
-            services.AddTransient<UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IOrderStatusService, OrderStatusService>();
             services.AddTransient<IOrderService, OrderService>();

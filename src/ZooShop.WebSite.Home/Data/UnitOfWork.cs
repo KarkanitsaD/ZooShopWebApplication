@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using ZooShop.Website.Home.Data.Contracts;
 
 
 namespace ZooShop.Website.Home.Data
 {
-    public class UnitOfWork
+    public class UnitOfWork: IUnitOfWork
     {
         private readonly ZooShopContext _context;
         private readonly Dictionary<string, object> _repositories; 
@@ -21,7 +22,6 @@ namespace ZooShop.Website.Home.Data
 
         public Repository<T> GetRepository<T>() where T : class, new()
         {
-
             string key = typeof(T).ToString();
             if (!_repositories.ContainsKey(key))
             {

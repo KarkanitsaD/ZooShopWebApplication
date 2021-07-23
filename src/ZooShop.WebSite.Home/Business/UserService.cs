@@ -2,16 +2,16 @@
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.DTOs;
-using ZooShop.Website.Home.Data;
+using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Business
 {
     public class UserService : IUserService
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(UnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }        
