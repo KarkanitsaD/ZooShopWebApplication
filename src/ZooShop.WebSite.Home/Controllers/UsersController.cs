@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
@@ -11,7 +12,7 @@ namespace ZooShop.Website.Home.Controllers
     public class UsersController : ControllerBase
     {
 
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public UsersController(IUserService userService)
         {
@@ -36,22 +37,40 @@ namespace ZooShop.Website.Home.Controllers
         [HttpPost]
         public void Post([FromBody] UserEntity user)
         {
-            _userService.Create(user);
+            if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
+            {
+                throw new ArgumentException("Not valid model");
+            }
+            _userService.Create(user); 
+            Response.StatusCode = 201;
+            
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public void Put([FromBody] UserEntity user)
         {
+            if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
+            {
+                throw new ArgumentException("Not valid model");
+            }
+
             _userService.Update(user);
+
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _userService.Delete(id);
+            if (id > 1)
+            {
+                _userService.Delete(id);
+            }
+            else
+            {
+                throw new ArgumentException("Not valid user id");
+            }
         }
-
     }
 }

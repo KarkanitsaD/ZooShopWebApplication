@@ -7,10 +7,10 @@ namespace ZooShop.Website.Home.Business.Contracts
 {
     public interface IUserService
     {
-        void Create(UserDto user);
-        void Update(UserDto user);
+        void Create(UserEntity user);
+        void Update(UserEntity user);
         void Delete(int id);
-        UserEntity Get(int id);
+        UserDto Get(int id);
         IEnumerable<UserDto> GetAll();
     }
 }
