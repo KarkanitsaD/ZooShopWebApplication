@@ -3,6 +3,6 @@
     public interface IUnitOfWork
     {
         void Save();
-        Repository<T> GetRepository<T>() where T : class, new();
+        IRepository<T> GetRepository<T>() where T : class, new();
     }
 }

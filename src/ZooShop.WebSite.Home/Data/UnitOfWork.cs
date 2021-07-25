@@ -20,7 +20,7 @@ namespace ZooShop.Website.Home.Data
             _context.SaveChanges();
         }
 
-        public Repository<T> GetRepository<T>() where T : class, new()
+        public IRepository<T> GetRepository<T>() where T : class, new()
         {
             string key = typeof(T).ToString();
             if (!_repositories.ContainsKey(key))
