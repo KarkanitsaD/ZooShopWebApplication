@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Contracts;
-using ZooShop.Website.Home.Business.DTOs;
+using ZooShop.Website.Home.Business.Models;
 using ZooShop.Website.Home.Data.Entities;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ZooShop.Website.Home.Controllers
 {
@@ -29,7 +27,7 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public UserEntity Get(int id)
+        public UserDto Get(int id)
         {
             return _userService.Get(id);
         }

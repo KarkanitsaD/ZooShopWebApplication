@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
-using ZooShop.Website.Home.Business.DTOs;
+using ZooShop.Website.Home.Business.Models;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
@@ -30,23 +30,14 @@ namespace ZooShop.Website.Home.Business
             _unitOfWork.Save();
         }
 
-        public UserEntity Get(int id)
+        public UserDto Get(int id)
         {
-            return _unitOfWork.GetRepository<UserEntity>().Get(id);
+            return GetMapper().Map<UserEntity, UserDto>(_unitOfWork.GetRepository<UserEntity>().Get(id));
         }
 
         public IEnumerable<UserDto> GetAll()
         {
-            var config = new MapperConfiguration(cfg =>
-                    cfg.CreateMap<UserEntity, UserDto>()
-                    .ForMember("FullName", opt => opt.MapFrom(u => u.FirstName + " " + u.LastName + " " + u.Surname))
-                    .ForMember("Id", opt => opt.MapFrom(u => u.Id))
-                    .ForMember("Email", opt => opt.MapFrom(u => u.Email))
-                );
-
-            var mapper = new Mapper(config);
-
-            var users = mapper.Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
+            var users = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
             return users;
         }
 
@@ -56,6 +47,18 @@ namespace ZooShop.Website.Home.Business
             _unitOfWork.Save();
         }
 
+        private static Mapper GetMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+                cfg.CreateMap<UserEntity, UserDto>()
+                    .ForMember("FullName", opt => opt.MapFrom(u => u.FirstName + " " + u.LastName + " " + u.Surname))
+                    .ForMember("Id", opt => opt.MapFrom(u => u.Id))
+                    .ForMember("Email", opt => opt.MapFrom(u => u.Email))
+            );
+
+            var mapper = new Mapper(config);
+            return mapper;
+        }
         
     }
 }
