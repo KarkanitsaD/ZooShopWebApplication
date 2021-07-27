@@ -11,40 +11,41 @@ namespace ZooShop.Website.Home.Tests
 {
     public class UsersControllerTests
     {
-        [Theory]
-        [MemberData(nameof(Data))]
-        public void Add_ValidOrNotValidUser_CatchException(UserEntity user, int statusCode)
+
+        [Fact]
+        public void Add_NotValidUser_CatchException()
         {
             //Arrange
             var moq = new Mock<IUserService>();
-
+            var notValidUser = new UserEntity() {FirstName = "Dima", Email = "email"};
             UsersController controller = new UsersController(moq.Object);
 
             //Act
 
             //Assert
-            Assert.Throws<ArgumentException>(() => {controller.Post(user);});
+            Assert.Throws<ArgumentException>(() => { controller.Post(notValidUser); });
         }
-
-        [Theory]
-        [MemberData(nameof(Data))]
-        public void Update_ValidOrNotValidUser_CatchException(UserEntity user)
+        
+        [Fact]
+        public void Update_NotValidUser_CatchException()
         {
             //Arrange
             var moq = new Mock<IUserService>();
-
+            var notValidUser = new UserEntity() {FirstName = "Dima", Email = "email"};
             UsersController controller = new UsersController(moq.Object);
 
             //Act
 
             //Assert
-            Assert.Throws<ArgumentException>(() => { controller.Put(user); });
+            Assert.Throws<ArgumentException>(() => { controller.Put(notValidUser); });
         }
+
+
 
         [Theory]
         [InlineData(-3)]
         [InlineData(0)]
-        public void Delete_UserWithNegativeId_CatchE(int id)
+        public void Delete_UserWithNotValidId_CatchException(int id)
         {
             //Arrange
             var moq = new Mock<IUserService>();
@@ -61,6 +62,7 @@ namespace ZooShop.Website.Home.Tests
             {
                 new object[] { new UserEntity(){FirstName = "Dima", Email = "email", PasswordHash = "hash"}},
                 new object[] { new UserEntity(){FirstName = "Dima", Email = "email"}},
+                new object[]{null}
             };
 
 

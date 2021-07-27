@@ -22,9 +22,19 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<ProductEntity> Get()
+        public IEnumerable<ProductEntity> Get
+            (
+            [FromQuery]string title,
+            [FromQuery] float? minPrice,
+            [FromQuery] float? maxPrice 
+            )
         {
-            return _productService.GetAll();
+            if(minPrice == null && maxPrice == null && title == null)
+                return _productService.GetAll();
+            else
+            {
+                return _productService.GetWithFilter(title, minPrice, maxPrice);
+            }
         }
 
         // GET api/<ProductsController>/5

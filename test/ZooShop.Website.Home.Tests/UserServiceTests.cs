@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 using ZooShop.Website.Home.Business;
-using ZooShop.Website.Home.Data;
+using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
@@ -14,20 +14,48 @@ namespace ZooShop.Website.Home.Tests
     {
 
         [Fact]
-        public void GetAll_Users_CheckObjectTypeInCollection()
+        public void GetAll_Users_CheckOutputCollectionSize()
         {
             // Arrange
             var unitOfWorkMock = new Mock<IUnitOfWork>();
             unitOfWorkMock.Setup(uow => uow.GetRepository<UserEntity>().GetAll()).Returns(GetUsers());
 
-            int expectedCollectionSize = 3;
             UserService userService = new UserService(unitOfWorkMock.Object);
+
+            int expectedCollectionSize = 3;
             // Act
             var usersDtoCollection = userService.GetAll();
 
             // Assert
             Assert.Equal(expectedCollectionSize, usersDtoCollection.Count());
         }
+
+        [Fact]
+        public void Add_NullUser_CatchException()
+        {
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+
+            UserService userService = new UserService(unitOfWorkMock.Object);
+
+            // Act
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => { userService.Create(null); });
+        }
+        
+        [Fact]
+        public void Update_NullUser_CatchException()
+        {
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+
+            UserService userService = new UserService(unitOfWorkMock.Object);
+
+            // Act
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => { userService.Update(null); });
+        }
+
 
         private static IEnumerable<UserEntity> GetUsers()
         {
@@ -54,13 +82,14 @@ namespace ZooShop.Website.Home.Tests
             };
         }
 
-        private static ZooShopContext GetContext()
-        {
-            var options = new DbContextOptionsBuilder<ZooShopContext>()
-                .UseInMemoryDatabase(databaseName: "TestDb").Options;
+        public static IEnumerable<object[]> AddUpdateUsers =>
+            new List<object[]>()
+            {
+                new object[] { new UserEntity(){FirstName = "Dima", Email = "email", PasswordHash = "hash"}},
+                new object[] { new UserEntity(){FirstName = "Dima", Email = "email"}},
+                new object[] {null}
+            };
 
-            var context = new ZooShopContext(options);
-            return context;
-        }
+
     }
 }

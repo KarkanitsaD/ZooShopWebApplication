@@ -1,0 +1,12 @@
+﻿using System;
+using System.Linq.Expressions;
+
+namespace ZooShop.Website.Home.Data.Query
+{
+    public class SortRule<T> where T: class, new()
+    {
+        public Expression<Func<T, object>> Expression { get; set; }
+
+        public SortOrder Order { get; set; }
+    }
+}

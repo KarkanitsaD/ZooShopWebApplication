@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
@@ -43,6 +44,84 @@ namespace ZooShop.Website.Home.Business
         public IEnumerable<OrderEntity> GetAll()
         {
             return _unitOfWork.GetRepository<OrderEntity>().GetAll();
+        }
+
+        public IEnumerable<OrderEntity> Get(int? userId, int? statusId, string firstname, string surname, string lastname,
+            string email, string phone, string country, string city, string street, string house, string flat)
+        {
+            Func<OrderEntity, bool> filterPredicate = delegate(OrderEntity order)
+            {
+                if (userId != null)
+                {
+                    if (order.Id != userId)
+                        return false;
+                }
+                if (statusId != null)
+                {
+                    if (order.StatusId != statusId)
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(firstname))
+                {
+                    if (!order.FirstName.Contains(firstname))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(surname))
+                {
+                    if (!order.Surname.Contains(surname))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(lastname))
+                {
+                    if (!order.LastName.Contains(lastname))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(email))
+                {
+                    if (!order.Email.Equals(email))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    if (!order.Phone.Equals(phone))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(country))
+                {
+                    if (!order.Country.Contains(country))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(city))
+                {
+                    if (!order.City.Contains(city))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(street))
+                {
+                    if (!order.Street.Contains(street))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(house))
+                {
+                    if (!order.House.Equals(house))
+                        return false;
+                }
+                if (!string.IsNullOrEmpty(flat))
+                {
+                    if (!order.Flat.Equals(flat))
+                        return false;
+                }
+
+                return true;
+            };
+
+            Func<OrderEntity, object> sortPredicate = delegate(OrderEntity order)
+            {
+                return order.FirstName;
+            };
+
+
+            return _unitOfWork.GetRepository<OrderEntity>().Get(filterPredicate, sortPredicate);
         }
 
         public void Update(OrderEntity order)

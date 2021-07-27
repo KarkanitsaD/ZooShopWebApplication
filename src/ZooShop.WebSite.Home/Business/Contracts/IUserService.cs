@@ -12,5 +12,6 @@ namespace ZooShop.Website.Home.Business.Contracts
         void Delete(int id);
         UserDto Get(int id);
         IEnumerable<UserDto> GetAll();
+        IEnumerable<UserDto> GetWithFilter(string firstname, string surname, string lastname, string email);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data.Contracts;
 
@@ -39,7 +40,7 @@ namespace ZooShop.Website.Home.Data
 
         public IEnumerable<T> GetAll()
         {
-            return _table.ToList();
+            return _table.AsNoTracking();
         }
 
         public void Update(T item)
@@ -47,9 +48,9 @@ namespace ZooShop.Website.Home.Data
             _table.Update(item);
         }
 
-        public IEnumerable<T> Get(Func<T, bool> predicate)
+        public IEnumerable<T> Get(Func<T, bool> filterPredicate, Func<T, object> sortPredicate)
         {
-            return _table.Where(predicate).ToList();
+            return _table.AsNoTracking().AsEnumerable().Where(filterPredicate).OrderBy(sortPredicate);
         }
 
         public void CreateRange(List<T> items)

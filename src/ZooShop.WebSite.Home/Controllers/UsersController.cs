@@ -21,9 +21,20 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<UserDto> Get()
+        public IEnumerable<UserDto> Get
+            (
+            [FromQuery]string firstname,
+            [FromQuery] string surname,
+            [FromQuery] string lastname,
+            [FromQuery] string email
+            )
         {
-            return _userService.GetAll();
+            if (firstname == null && surname == null && lastname == null & email == null)
+            {
+                return _userService.GetAll();
+            }
+
+            return _userService.GetWithFilter(firstname, surname, lastname, email);
         }
 
         // GET api/<UsersController>/5
@@ -56,7 +67,6 @@ namespace ZooShop.Website.Home.Controllers
             }
 
             _userService.Update(user);
-
         }
 
         // DELETE api/<UsersController>/5

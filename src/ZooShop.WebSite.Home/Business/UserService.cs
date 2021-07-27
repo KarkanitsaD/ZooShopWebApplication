@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
@@ -18,6 +20,10 @@ namespace ZooShop.Website.Home.Business
 
         public void Create(UserEntity user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
             _unitOfWork.GetRepository<UserEntity>().Create(user);
             _unitOfWork.Save();
         }
@@ -43,6 +49,10 @@ namespace ZooShop.Website.Home.Business
 
         public void Update(UserEntity user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
             _unitOfWork.GetRepository<UserEntity>().Update(user);
             _unitOfWork.Save();
         }
@@ -59,6 +69,48 @@ namespace ZooShop.Website.Home.Business
             var mapper = new Mapper(config);
             return mapper;
         }
-        
+
+        public IEnumerable<UserDto> GetWithFilter(string firstname, string surname, string lastname, string email)
+        {
+            Func<UserEntity, bool> filterPredicate = delegate(UserEntity user)
+            {
+                if (!string.IsNullOrEmpty(firstname))
+                {
+                    if (!user.FirstName.Contains(firstname))
+                        return false;
+                }
+
+                if (!string.IsNullOrEmpty(surname))
+                {
+                    if (!user.Surname.Contains(surname))
+                        return false;
+                }
+
+                if (!string.IsNullOrEmpty(lastname))
+                {
+                    if (!user.LastName.Contains(lastname))
+                        return false;
+                }
+
+                if (!string.IsNullOrEmpty(email))
+                {
+                    if (!user.Email.Contains(email))
+                        return false;
+                }
+
+                return true;
+            };
+
+
+            Func<UserEntity, object> sortPredicate = delegate(UserEntity user)
+            {
+                return user.FirstName;
+            };
+
+
+            var usersEntity =  _unitOfWork.GetRepository<UserEntity>().Get(filterPredicate, sortPredicate);
+            var usersDto = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(usersEntity);
+            return usersDto;
+        }
     }
 }
