@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
+using ZooShop.Website.Home.Data.Query;
 
 namespace ZooShop.Website.Home.Business
 {
@@ -101,14 +101,25 @@ namespace ZooShop.Website.Home.Business
                 return true;
             };
 
-
             Func<UserEntity, object> sortPredicate = delegate(UserEntity user)
             {
                 return user.FirstName;
             };
 
+            QueryParameters<UserEntity> queryParameters = new QueryParameters<UserEntity>()
+            {
+                FilterRule = new FilterRule<UserEntity>()
+                {
+                    Expression = filterPredicate
+                },
+                SortRule = new SortRule<UserEntity>()
+                {
+                    Order = SortOrder.Ascending,
+                    Expression = sortPredicate
+                }
+            };
 
-            var usersEntity =  _unitOfWork.GetRepository<UserEntity>().Get(filterPredicate, sortPredicate);
+            var usersEntity =  _unitOfWork.GetRepository<UserEntity>().Get(queryParameters);
             var usersDto = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(usersEntity);
             return usersDto;
         }

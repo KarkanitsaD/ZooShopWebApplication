@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data.Contracts;
+using ZooShop.Website.Home.Data.Query;
 
 namespace ZooShop.Website.Home.Data
 {
@@ -59,6 +59,12 @@ namespace ZooShop.Website.Home.Data
             {
                 _table.Add(item);
             }
+        }
+
+        public IEnumerable<T> Get(QueryParameters<T> queryParameters)
+        {
+            return _table.AsNoTracking().AsEnumerable().Where(queryParameters.FilterRule.Expression)
+                .OrderBy(queryParameters.SortRule.Expression);
         }
     }
 }

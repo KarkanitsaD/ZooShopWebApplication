@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Moq;
 using Xunit;
 using ZooShop.Website.Home.Business.Contracts;
+using ZooShop.Website.Home.Business.Models;
 using ZooShop.Website.Home.Controllers;
 using ZooShop.Website.Home.Data.Entities;
 
@@ -64,6 +66,62 @@ namespace ZooShop.Website.Home.Tests
                 new object[] { new UserEntity(){FirstName = "Dima", Email = "email"}},
                 new object[]{null}
             };
+
+
+        [Theory]
+        [InlineData("name", null, "lastname", "email", 1)]
+        [InlineData(null, null, null, null, 2)]
+        [InlineData(null, null, null, "aakarkanitsa@gmail.com", 1)]
+        public void Get_User_CheckWhatMethodExecute
+            (
+            string firstname,
+            string surname,
+            string lastname,
+            string email,
+            int expectedSize)
+        {
+            //Arrange
+            var serviceMoq = new Mock<IUserService>();
+            serviceMoq.Setup(s => s.GetAll()).Returns(GetAllUsers());
+            serviceMoq.Setup(s =>
+                    s.GetWithFilter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(GetUsersWithFilter);
+
+            UsersController usersController = new UsersController(serviceMoq.Object);
+            //Act
+
+            var list = usersController.Get(firstname, surname, lastname, email);
+
+
+            //Assert
+            Assert.Equal(expectedSize, list.Count());
+
+        }
+        private static IEnumerable<UserDto> GetAllUsers()
+        {
+            return new List<UserDto>()
+            {
+                new UserDto()
+                {
+
+                },
+                new UserDto()
+                {
+
+                }
+            };
+        }
+        
+        private static IEnumerable<UserDto> GetUsersWithFilter()
+        {
+            return new List<UserDto>()
+            {
+                new UserDto()
+                {
+
+                }
+            };
+        }
 
 
 
