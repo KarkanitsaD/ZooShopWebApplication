@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
@@ -57,6 +59,36 @@ namespace ZooShop.Website.Home.Business
             _unitOfWork.Save();
         }
 
+        public IEnumerable<UserDto> GetWithFilter(string firstname, string surname, string lastname, string email)
+        {
+
+            Expression<Func<UserEntity, bool>> filterExpression =  x =>
+                x.FirstName.Contains(firstname)
+                && x.LastName.Contains(lastname)
+                && x.Surname.Contains(surname)
+                && x.Email.Equals(email);
+
+
+               Expression <Func<UserEntity, object>> sortExpression = x => x.FirstName;
+
+            QueryParameters<UserEntity> queryParameters = new QueryParameters<UserEntity>()
+            {
+                FilterRule = new FilterRule<UserEntity>()
+                {
+                    Expression = filterExpression
+                },
+                SortRule = new SortRule<UserEntity>()
+                {
+                    Order = SortOrder.Ascending,
+                    Expression = sortExpression
+                }
+            };
+
+            var usersEntity =  _unitOfWork.GetRepository<UserEntity>().Get(queryParameters);
+            var usersDto = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(usersEntity);
+            return usersDto;
+        }
+
         private static Mapper GetMapper()
         {
             var config = new MapperConfiguration(cfg =>
@@ -68,60 +100,6 @@ namespace ZooShop.Website.Home.Business
 
             var mapper = new Mapper(config);
             return mapper;
-        }
-
-        public IEnumerable<UserDto> GetWithFilter(string firstname, string surname, string lastname, string email)
-        {
-            Func<UserEntity, bool> filterPredicate = delegate(UserEntity user)
-            {
-                if (!string.IsNullOrEmpty(firstname))
-                {
-                    if (!user.FirstName.Contains(firstname))
-                        return false;
-                }
-
-                if (!string.IsNullOrEmpty(surname))
-                {
-                    if (!user.Surname.Contains(surname))
-                        return false;
-                }
-
-                if (!string.IsNullOrEmpty(lastname))
-                {
-                    if (!user.LastName.Contains(lastname))
-                        return false;
-                }
-
-                if (!string.IsNullOrEmpty(email))
-                {
-                    if (!user.Email.Contains(email))
-                        return false;
-                }
-
-                return true;
-            };
-
-            Func<UserEntity, object> sortPredicate = delegate(UserEntity user)
-            {
-                return user.FirstName;
-            };
-
-            QueryParameters<UserEntity> queryParameters = new QueryParameters<UserEntity>()
-            {
-                FilterRule = new FilterRule<UserEntity>()
-                {
-                    Expression = filterPredicate
-                },
-                SortRule = new SortRule<UserEntity>()
-                {
-                    Order = SortOrder.Ascending,
-                    Expression = sortPredicate
-                }
-            };
-
-            var usersEntity =  _unitOfWork.GetRepository<UserEntity>().Get(queryParameters);
-            var usersDto = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(usersEntity);
-            return usersDto;
         }
     }
 }

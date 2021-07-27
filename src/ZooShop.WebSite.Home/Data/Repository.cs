@@ -9,16 +9,14 @@ namespace ZooShop.Website.Home.Data
 {
     public class Repository<T> : IRepository<T> where T : class, new()
     {
+        private readonly DbContext _context;
+        private readonly DbSet<T> _table;
 
         public Repository(DbContext context)
         {
             _context = context;
             _table = _context.Set<T>();
         }
-
-        private readonly DbContext _context;
-        private readonly DbSet<T> _table;
-
 
         public void Create(T item)
         {
@@ -63,8 +61,8 @@ namespace ZooShop.Website.Home.Data
 
         public IEnumerable<T> Get(QueryParameters<T> queryParameters)
         {
-            return _table.AsNoTracking().AsEnumerable().Where(queryParameters.FilterRule.Expression)
-                .OrderBy(queryParameters.SortRule.Expression);
+            return _table.AsNoTracking().AsEnumerable().Where(queryParameters.FilterRule.Expression.Compile())
+                .OrderBy(queryParameters.SortRule.Expression.Compile());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using Moq;
 using Xunit;
 using ZooShop.Website.Home.Business;
@@ -12,6 +13,12 @@ namespace ZooShop.Website.Home.Tests
 {
     public class UserServiceTests
     {
+
+        private readonly Mock<IUnitOfWork> _mockUnitOfWork;
+        public UserServiceTests()
+        {
+            _mockUnitOfWork = new Mock<IUnitOfWork>();
+        }
 
         [Fact]
         public void GetAll_Users_CheckOutputCollectionSize()
@@ -29,6 +36,8 @@ namespace ZooShop.Website.Home.Tests
             // Assert
             Assert.Equal(expectedCollectionSize, usersDtoCollection.Count());
         }
+
+
 
         [Fact]
         public void Add_NullUser_CatchException()

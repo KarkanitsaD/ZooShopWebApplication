@@ -12,14 +12,16 @@ namespace ZooShop.Website.Home.Tests
         [Fact]
         public void Get_User_CheckId()
         {
-            //Arrange
+            // Arrange
             var repository = GetRepository();
             var user = GetUser();
             var expectedId = user.Id;
             repository.Create(user);
-            //Act
+
+            // Act
             var actualId = repository.Get(user.Id).Id;
-            //Assert
+
+            // Assert
             Assert.Equal(expectedId, actualId);
         }
 

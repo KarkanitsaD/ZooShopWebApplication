@@ -23,7 +23,7 @@ namespace ZooShop.Website.Home.Controllers
         [HttpGet]
         public IEnumerable<UserDto> Get
             (
-            [FromQuery]string firstname,
+            [FromQuery] string firstname,
             [FromQuery] string surname,
             [FromQuery] string lastname,
             [FromQuery] string email
