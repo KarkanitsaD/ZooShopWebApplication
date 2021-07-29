@@ -24,16 +24,15 @@ namespace ZooShop.Website.Home.Controllers
         [HttpGet]
         public IEnumerable<ProductEntity> Get
             (
-            [FromQuery]string title,
-            [FromQuery] float? minPrice,
-            [FromQuery] float? maxPrice 
-            )
+            [FromQuery]string title
+        )
         {
-            if(minPrice == null && maxPrice == null && title == null)
+            if(title == null)
                 return _productService.GetAll();
             else
             {
-                return _productService.GetWithFilter(title, minPrice, maxPrice);
+                var x = _productService.GetWithFilter(title);
+                return x;
             }
         }
 

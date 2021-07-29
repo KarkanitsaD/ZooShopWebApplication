@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
+using ZooShop.Website.Home.Data.Query;
 
 namespace ZooShop.Website.Home.Business
 {
@@ -115,13 +118,30 @@ namespace ZooShop.Website.Home.Business
                 return true;
             };
 
-            Func<OrderEntity, object> sortPredicate = delegate(OrderEntity order)
+            Expression<Func<OrderEntity, bool>> filterExpression = Expression.Lambda<Func<OrderEntity, bool>>(Expression.Call(filterPredicate.Method));
+
+            Expression<Func<OrderEntity, object>> sortExpression = x => x.Id;
+
+            Expression<Func<OrderEntity, object>> includExpression = x => x.Products;
+
+            QueryParameters<OrderEntity> queryParameters = new QueryParameters<OrderEntity>()
             {
-                return order.FirstName;
+                FilterRule = new FilterRule<OrderEntity>()
+                {
+                    Expression = filterExpression
+                },
+                SortRule = new SortRule<OrderEntity>()
+                {
+                    Expression = sortExpression,
+                    Order = SortOrder.Ascending
+                },
+                IncludeRule = new IncludeRule<OrderEntity>()
+                {
+                    Expression = includExpression
+                }
             };
 
-
-            return _unitOfWork.GetRepository<OrderEntity>().Get(filterPredicate, sortPredicate);
+            return _unitOfWork.GetRepository<OrderEntity>().Get(queryParameters);
         }
 
         public void Update(OrderEntity order)

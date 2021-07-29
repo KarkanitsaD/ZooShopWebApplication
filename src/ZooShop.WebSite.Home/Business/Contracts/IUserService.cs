@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Models;
+using ZooShop.Website.Home.Business.QueryModels;
 using ZooShop.Website.Home.Data.Entities;
 
 
@@ -12,6 +13,6 @@ namespace ZooShop.Website.Home.Business.Contracts
         void Delete(int id);
         UserDto Get(int id);
         IEnumerable<UserDto> GetAll();
-        IEnumerable<UserDto> GetWithFilter(string firstname, string surname, string lastname, string email);
+        IEnumerable<UserDto> GetWithQueryParameters(UserQueryModel queryModel);
     }
 }

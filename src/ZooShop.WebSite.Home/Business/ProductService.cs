@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Xml.XPath;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
+using ZooShop.Website.Home.Data.Query;
 
 namespace ZooShop.Website.Home.Business
 {
@@ -48,29 +51,35 @@ namespace ZooShop.Website.Home.Business
         }
 
 
-        public IEnumerable<ProductEntity> GetWithFilter(string title, float? minPrice, float? maxPrice)
+        public IEnumerable<ProductEntity> GetWithFilter(string title)
         {
-            Func<ProductEntity, bool> filterPredicate = delegate(ProductEntity product)
+            Expression<Func<ProductEntity, bool>> filterExpression = x =>
+                x.Title.Contains(title);
+
+            Expression<Func<ProductEntity, object>> sortExpression = x =>
+                x.Price;
+
+            Expression<Func<ProductEntity, object>> includeExpression = x =>
+                x.Categories;
+
+            QueryParameters<ProductEntity> queryParameters = new QueryParameters<ProductEntity>()
             {
-                if (!string.IsNullOrEmpty(title))
+                FilterRule = new FilterRule<ProductEntity>()
                 {
-                    if (!product.Title.Contains(title))
-                        return false;
+                    Expression = filterExpression
+                },
+                SortRule = new SortRule<ProductEntity>()
+                {
+                    Order = SortOrder.Ascending,
+                    Expression = sortExpression
+                },
+                IncludeRule = new IncludeRule<ProductEntity>()
+                {
+                    //Expression = includeExpression
                 }
-
-                if ((float)product.Price < minPrice || (float)product.Price > maxPrice)
-                    return false;
-                return true;
             };
 
-            Func<ProductEntity, object> sortPredicate = delegate (ProductEntity product)
-            {
-                return product.Price;
-            };
-
-
-
-            return _unitOfWork.GetRepository<ProductEntity>().Get(filterPredicate, sortPredicate);
+            return _unitOfWork.GetRepository<ProductEntity>().Get(queryParameters);  
         }
     }
 }

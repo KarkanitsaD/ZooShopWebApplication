@@ -11,5 +11,7 @@ namespace ZooShop.Website.Home.Data.Query
 
         public SortRule<T> SortRule { get; set; }
 
+        public IncludeRule<T> IncludeRule { get; set; }
+
     }
 }

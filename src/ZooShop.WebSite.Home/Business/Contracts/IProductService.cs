@@ -10,6 +10,6 @@ namespace ZooShop.Website.Home.Business.Contracts
         void Delete(int id);
         ProductEntity Get(int id);
         IEnumerable<ProductEntity> GetAll();
-        IEnumerable<ProductEntity> GetWithFilter(string title, float? minPrice, float? maxPrice);
+        IEnumerable<ProductEntity> GetWithFilter(string title);
     }
 }

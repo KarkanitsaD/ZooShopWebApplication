@@ -1,80 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data;
 using Xunit;
+using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Tests
 {
     public class RepositoryTests
     {
-        [Fact]
-        public void Get_User_CheckId()
+        private IRepository<UserEntity> _repository;
+
+        //Get(int id)
+        [Theory]
+        [InlineData(1, "Dima")]
+        [InlineData(2, "Oleg")]
+        [InlineData(3, "Kirill")]
+        public void GetById_UserEntity_CheckUserEntityFirstName(int id, string expectedFirstName)
         {
             // Arrange
-            var repository = GetRepository();
-            var user = GetUser();
-            var expectedId = user.Id;
-            repository.Create(user);
+            _repository = GetDefaultUserRepository();
+            _repository.CreateRange(new List<UserEntity>()
+            {
+                new(){Id = 1, FirstName = "Dima"},
+                new(){Id = 2, FirstName = "Oleg"},
+                new(){Id = 3, FirstName = "Kirill"}
+            });
 
             // Act
-            var actualId = repository.Get(user.Id).Id;
+            var user = _repository.Get(id);
 
             // Assert
-            Assert.Equal(expectedId, actualId);
+            Assert.Equal(expectedFirstName, user.FirstName);
         }
 
-
+        //GetAll
         [Fact]
-        public void Create_User_CheckAvailability()
+        public void GetAll_Users_CheckCountUsers()
+        {
+            _repository = GetDefaultUserRepository();
+
+        }
+
+        //Create(UserEntity user)
+        [Fact]
+        public void Create_UserEntity_CountsUser()
         {
             //Arrange
-            var repository = GetRepository();
-            var expectedUser = GetUser();
-
+            _repository = GetDefaultUserRepository();
+            
             //Act
-            repository.Create(expectedUser);
+            _repository.CreateRange(new List<UserEntity>() {new UserEntity(){Id = 1, FirstName = "Dima"}});
 
             //Assert
-            Assert.Same(expectedUser, repository.Get(expectedUser.Id));
+            Assert.Equal(1, _repository.GetAll().Count());
         }
 
-
-
+        //CreateRange(List<UserEntity> users)
         [Fact]
-        public void Delete_User_CheckAvailability()
+        public void CreateRange_UserEntity_CountsUsersEntities()
         {
-            //Arrange   
-            var repository = GetRepository();
-            var expectedUser = GetUser();
-            repository.Create(expectedUser);
 
-            //Act
-            repository.Delete(expectedUser);
-
-            //Assert
-            Assert.NotSame(expectedUser, repository.Get(expectedUser.Id));
         }
 
+        //Delete(UserEntity user)
         [Fact]
-        public void Update_User_CheckChanges()
+        public void Delete_UserEntity_CheckAvailability()
         {
-            //Arrange
-            var repository = GetRepository();
-            var user = GetUser();
-            repository.Create(user);
-            var expectedFirstName = "Vadim";
 
-            //Act
-            user.FirstName = expectedFirstName;
-            repository.Update(user);
-
-            //Assert
-            Assert.Equal(expectedFirstName, repository.Get(user.Id).FirstName);
         }
 
-        private static Repository<UserEntity> GetRepository()
+        //Update(UserEntity user)
+        [Fact]
+        public void Update_UserEntity_CheckChanges()
+        {
+
+        }
+
+        private static Repository<UserEntity> GetDefaultUserRepository()
         {
             var options = new DbContextOptionsBuilder<ZooShopContext>()
                 .UseInMemoryDatabase(databaseName: "TestDb").Options;
@@ -84,15 +88,5 @@ namespace ZooShop.Website.Home.Tests
             return new Repository<UserEntity>(context);
         }
 
-        private static UserEntity GetUser()
-        {
-            return new UserEntity()
-            {
-                Id = 15,
-                FirstName = "Dima",
-                Surname = "Karkanitsa",
-                LastName = "Michailovcih"
-            };
-        }
     }
 }

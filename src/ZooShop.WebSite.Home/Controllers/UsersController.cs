@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
+using ZooShop.Website.Home.Business.QueryModels;
 using ZooShop.Website.Home.Data.Entities;
 
 namespace ZooShop.Website.Home.Controllers
@@ -21,20 +22,14 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<UserDto> Get
-            (
-            [FromQuery] string firstname,
-            [FromQuery] string surname,
-            [FromQuery] string lastname,
-            [FromQuery] string email
-            )
+        public IEnumerable<UserDto> Get([FromQuery]UserQueryModel queryModel)
         {
-            if (firstname == null && surname == null && lastname == null & email == null)
+            if (queryModel==null || !queryModel.IsValidToFilter())
             {
                 return _userService.GetAll();
             }
 
-            return _userService.GetWithFilter(firstname, surname, lastname, email);
+            return _userService.GetWithQueryParameters(queryModel);
         }
 
         // GET api/<UsersController>/5
@@ -48,6 +43,10 @@ namespace ZooShop.Website.Home.Controllers
         [HttpPost]
         public void Post([FromBody] UserEntity user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(UserEntity), "User can't be null");
+            }
             if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
             {
                 throw new ArgumentException("Not valid model");
@@ -61,6 +60,10 @@ namespace ZooShop.Website.Home.Controllers
         [HttpPut("{id}")]
         public void Put([FromBody] UserEntity user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(UserEntity), "User can't be null");
+            }
             if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
             {
                 throw new ArgumentException("Not valid model");

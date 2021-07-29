@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Permissions;
 using Moq;
 using Xunit;
 using ZooShop.Website.Home.Business;
@@ -13,8 +12,8 @@ namespace ZooShop.Website.Home.Tests
 {
     public class UserServiceTests
     {
-
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
+        private IUserService _userService;
         public UserServiceTests()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -36,8 +35,6 @@ namespace ZooShop.Website.Home.Tests
             // Assert
             Assert.Equal(expectedCollectionSize, usersDtoCollection.Count());
         }
-
-
 
         [Fact]
         public void Add_NullUser_CatchException()
@@ -65,6 +62,63 @@ namespace ZooShop.Website.Home.Tests
             Assert.Throws<ArgumentNullException>(() => { userService.Update(null); });
         }
 
+        //Create(UserEntity user)
+        [Fact]
+        public void Create_NullUserEntity_ThrowsArgumentNullException()
+        {
+            //Arrange
+            _userService = new UserService(_mockUnitOfWork.Object);
+            
+            //Act
+            Action action = () => _userService.Create(null);
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(action);
+        }
+
+        //Delete(int id)
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-2)]
+        public void DeleteById_NegativeOrZeroId_ThrowsArgumentException(int id)
+        {
+            //Arrange
+            _userService = new UserService(_mockUnitOfWork.Object);
+
+            //Act
+            Action action = () => _userService.Delete(id);
+
+            //Assert
+            Assert.Throws<ArgumentException>(action);
+        }
+
+        //Update(UserEntity user)
+        [Fact]
+        public void Update_NullUser_ThrowsArgumentNullException()
+        {
+            //Arrange
+            UserService userService = new UserService(_mockUnitOfWork.Object);
+
+            // Act
+            Action action = () => _userService.Update(null);
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(action);
+        }
+
+        //Update(UserEntity user)
+        [Fact]
+        public void Update_UserWithZeroOrNegativeId_ThrowsArgumentException()
+        {
+            //Arrange
+            _userService = new UserService(_mockUnitOfWork.Object);
+
+            // Act
+            Action action = () => _userService.Update(new UserEntity(){Id = -2});
+
+            // Assert
+            Assert.Throws<ArgumentException>(action);
+        }
 
         private static IEnumerable<UserEntity> GetUsers()
         {

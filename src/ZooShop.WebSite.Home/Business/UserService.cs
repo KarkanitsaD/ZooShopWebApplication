@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
+using ZooShop.Website.Home.Business.QueryModels;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 using ZooShop.Website.Home.Data.Query;
@@ -24,7 +23,7 @@ namespace ZooShop.Website.Home.Business
         {
             if (user == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(UserEntity), "User can't be null");
             }
             _unitOfWork.GetRepository<UserEntity>().Create(user);
             _unitOfWork.Save();
@@ -32,6 +31,8 @@ namespace ZooShop.Website.Home.Business
 
         public void Delete(int id)
         {
+            if (id < 1)
+                throw new ArgumentException("Not valid user id");
             var repository = _unitOfWork.GetRepository<UserEntity>();
             var user = repository.Get(id);
             repository.Delete(user);
@@ -52,41 +53,83 @@ namespace ZooShop.Website.Home.Business
         public void Update(UserEntity user)
         {
             if (user == null)
-            {
-                throw new ArgumentNullException();
-            }
+                throw new ArgumentNullException(nameof(UserEntity), "User can't be null");
+            if (user.Id < 1)
+                throw new ArgumentException(nameof(UserEntity), "User Id should be positive");
             _unitOfWork.GetRepository<UserEntity>().Update(user);
             _unitOfWork.Save();
         }
 
-        public IEnumerable<UserDto> GetWithFilter(string firstname, string surname, string lastname, string email)
+        public IEnumerable<UserDto> GetWithQueryParameters(UserQueryModel queryModel)
         {
-
-            Expression<Func<UserEntity, bool>> filterExpression =  x =>
-                x.FirstName.Contains(firstname)
-                && x.LastName.Contains(lastname)
-                && x.Surname.Contains(surname)
-                && x.Email.Equals(email);
-
-
-               Expression <Func<UserEntity, object>> sortExpression = x => x.FirstName;
+            var filterRule = GetFilterRule(queryModel);
+            var sortRule = GetSortRule(queryModel);
+            var includeRule = GetIncludeRule(queryModel);
 
             QueryParameters<UserEntity> queryParameters = new QueryParameters<UserEntity>()
             {
-                FilterRule = new FilterRule<UserEntity>()
-                {
-                    Expression = filterExpression
-                },
-                SortRule = new SortRule<UserEntity>()
-                {
-                    Order = SortOrder.Ascending,
-                    Expression = sortExpression
-                }
+                FilterRule = filterRule,
+                SortRule = sortRule,
+                IncludeRule = includeRule
             };
 
-            var usersEntity =  _unitOfWork.GetRepository<UserEntity>().Get(queryParameters);
-            var usersDto = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(usersEntity);
-            return usersDto;
+            var userEntities = _unitOfWork.GetRepository<UserEntity>().Get(queryParameters);
+            var userDtos = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(userEntities);
+            return userDtos;
+        }
+
+        private FilterRule<UserEntity> GetFilterRule(UserQueryModel queryModel)
+        {
+            FilterRule<UserEntity> filterRule = new FilterRule<UserEntity>();
+
+            if (!queryModel.IsValidToFilter())
+                filterRule.Expression = x => true;
+            else
+            {
+                Func<UserEntity, bool> filterPredicate = delegate (UserEntity user)
+                {
+                    if (queryModel.Email != null)
+                    {
+                        if (!user.Email.Equals(queryModel.Email))
+                            return false;
+                    }
+                    if (queryModel.FirstName != null)
+                    {
+                        if (!user.FirstName.Contains(queryModel.FirstName))
+                            return false;
+                    }
+                    if (queryModel.Surname != null)
+                    {
+                        if (!user.Surname.Contains(queryModel.Surname))
+                            return false;
+                    }
+                    if (queryModel.LastName != null)
+                    {
+                        if (!user.LastName.Contains(queryModel.LastName))
+                            return false;
+                    }
+
+                    return true;
+                };
+
+                filterRule.Expression = u => filterPredicate(u);
+            }
+            return filterRule;
+        }
+
+        private SortRule<UserEntity> GetSortRule(UserQueryModel queryModel)
+        {
+            SortRule<UserEntity> sortRule = new SortRule<UserEntity>
+            {
+                Order = queryModel.SortOrder
+            };
+
+            return sortRule;
+        }
+
+        private IncludeRule<UserEntity> GetIncludeRule(UserQueryModel queryModel)
+        {
+            return new IncludeRule<UserEntity>();
         }
 
         private static Mapper GetMapper()
@@ -101,5 +144,6 @@ namespace ZooShop.Website.Home.Business
             var mapper = new Mapper(config);
             return mapper;
         }
+
     }
 }
