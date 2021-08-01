@@ -11,7 +11,7 @@ namespace ZooShop.Website.Home.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private IOrderService _orderService;
+        private readonly IOrderService _orderService;
 
         public OrdersController(IOrderService orderService)
         {

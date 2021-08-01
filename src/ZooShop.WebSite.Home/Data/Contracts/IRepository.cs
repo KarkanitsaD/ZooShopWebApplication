@@ -6,9 +6,8 @@ using ZooShop.Website.Home.Data.Query;
 namespace ZooShop.Website.Home.Data.Contracts
 {
     public interface IRepository<T> where T : class
-    {        
-        IEnumerable<T> GetAll();
-        IEnumerable<T> Get(QueryParameters<T> queryParameters);
+    {
+        IEnumerable<T> GetAll(QueryParameters<T> queryParameters = null);
         T Get(int id);
         void Create(T item);
         void CreateRange(List<T> items);

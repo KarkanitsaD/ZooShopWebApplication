@@ -12,7 +12,6 @@ namespace ZooShop.Website.Home.Business.Contracts
         void Update(UserEntity user);
         void Delete(int id);
         UserDto Get(int id);
-        IEnumerable<UserDto> GetAll();
-        IEnumerable<UserDto> GetWithQueryParameters(UserQueryModel queryModel);
+        IEnumerable<UserDto> GetAll(UserQueryModel queryModel = null);
     }
 }

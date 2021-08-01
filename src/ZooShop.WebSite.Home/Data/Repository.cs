@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Query;
@@ -24,9 +22,22 @@ namespace ZooShop.Website.Home.Data
             _table.Add(item);
         }
 
+        public void CreateRange(List<T> items)
+        {
+            foreach (var item in items)
+            {
+                _table.Add(item);
+            }
+        }
+
         public void Delete(T item)
         {
             _table.Remove(item);
+        }
+
+        public void Update(T item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
         }
 
         public T Get(int id)
@@ -37,28 +48,24 @@ namespace ZooShop.Website.Home.Data
             return item;
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(QueryParameters<T> queryParameters = null)
         {
-            return _table.ToList();
-        }
+            var query = _table.AsNoTracking().AsEnumerable();
+            if (queryParameters == null)
+                return query;
 
-        public void Update(T item)
-        {
-            _table.Update(item);
-        }
+            if (queryParameters.FilterRule != null && queryParameters.FilterRule.Expression != null)
+                query = query.Where(queryParameters.FilterRule.Expression.Compile());
 
-        public void CreateRange(List<T> items)
-        {
-            foreach (var item in items)
+            if (queryParameters.SortRule != null && queryParameters.SortRule.Expression != null)
             {
-                _table.Add(item);
+                if (queryParameters.SortRule.Order == SortOrder.Ascending)
+                    query = query.OrderBy(queryParameters.SortRule.Expression.Compile());
+                else
+                    query = query.OrderByDescending(queryParameters.SortRule.Expression.Compile());
             }
-        }
 
-        public IEnumerable<T> Get(QueryParameters<T> queryParameters)
-        {
-            return _table.AsEnumerable().Where(queryParameters.FilterRule.Expression.Compile())
-                /*.OrderBy(queryParameters.SortRule.Expression.Compile())*/;
+            return query;
         }
     }
 }

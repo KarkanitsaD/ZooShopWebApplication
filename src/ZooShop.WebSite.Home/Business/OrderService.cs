@@ -12,9 +12,7 @@ namespace ZooShop.Website.Home.Business
 {
     public class OrderService : IOrderService
     {
-
         private readonly IUnitOfWork _unitOfWork;
-
 
         public OrderService(IUnitOfWork unitOfWork)
         {
@@ -134,14 +132,10 @@ namespace ZooShop.Website.Home.Business
                 {
                     Expression = sortExpression,
                     Order = SortOrder.Ascending
-                },
-                IncludeRule = new IncludeRule<OrderEntity>()
-                {
-                    Expression = includExpression
                 }
             };
 
-            return _unitOfWork.GetRepository<OrderEntity>().Get(queryParameters);
+            return _unitOfWork.GetRepository<OrderEntity>().GetAll(queryParameters);
         }
 
         public void Update(OrderEntity order)

@@ -9,7 +9,6 @@ namespace ZooShop.Website.Home.Business
     {
         private readonly IUnitOfWork _unitOfWork;
 
-
         public CategoryService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

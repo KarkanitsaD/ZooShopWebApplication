@@ -24,7 +24,7 @@ namespace ZooShop.Website.Home.Tests
         {
             // Arrange
             var unitOfWorkMock = new Mock<IUnitOfWork>();
-            unitOfWorkMock.Setup(uow => uow.GetRepository<UserEntity>().GetAll()).Returns(GetUsers());
+            unitOfWorkMock.Setup(uow => uow.GetRepository<UserEntity>().GetAll(null)).Returns(GetUsers());
 
             UserService userService = new UserService(unitOfWorkMock.Object);
 
@@ -36,32 +36,7 @@ namespace ZooShop.Website.Home.Tests
             Assert.Equal(expectedCollectionSize, usersDtoCollection.Count());
         }
 
-        [Fact]
-        public void Add_NullUser_CatchException()
-        {
-            var unitOfWorkMock = new Mock<IUnitOfWork>();
-
-            UserService userService = new UserService(unitOfWorkMock.Object);
-
-            // Act
-
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => { userService.Create(null); });
-        }
         
-        [Fact]
-        public void Update_NullUser_CatchException()
-        {
-            var unitOfWorkMock = new Mock<IUnitOfWork>();
-
-            UserService userService = new UserService(unitOfWorkMock.Object);
-
-            // Act
-
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => { userService.Update(null); });
-        }
-
         //Create(UserEntity user)
         [Fact]
         public void Create_NullUserEntity_ThrowsArgumentNullException()
@@ -97,7 +72,7 @@ namespace ZooShop.Website.Home.Tests
         public void Update_NullUser_ThrowsArgumentNullException()
         {
             //Arrange
-            UserService userService = new UserService(_mockUnitOfWork.Object);
+            _userService = new UserService(_mockUnitOfWork.Object);
 
             // Act
             Action action = () => _userService.Update(null);

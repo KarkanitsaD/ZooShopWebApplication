@@ -40,7 +40,6 @@ namespace ZooShop.Website.Home.Data
             }
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
             ConfigureProduct(modelBuilder);

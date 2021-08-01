@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Xml.XPath;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data.Contracts;
 using ZooShop.Website.Home.Data.Entities;
@@ -72,14 +70,10 @@ namespace ZooShop.Website.Home.Business
                 {
                     Order = SortOrder.Ascending,
                     Expression = sortExpression
-                },
-                IncludeRule = new IncludeRule<ProductEntity>()
-                {
-                    //Expression = includeExpression
                 }
             };
 
-            return _unitOfWork.GetRepository<ProductEntity>().Get(queryParameters);  
+            return _unitOfWork.GetRepository<ProductEntity>().GetAll(queryParameters);  
         }
     }
 }

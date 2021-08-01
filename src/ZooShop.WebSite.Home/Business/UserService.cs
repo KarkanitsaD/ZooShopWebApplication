@@ -44,10 +44,26 @@ namespace ZooShop.Website.Home.Business
             return GetMapper().Map<UserEntity, UserDto>(_unitOfWork.GetRepository<UserEntity>().Get(id));
         }
 
-        public IEnumerable<UserDto> GetAll()
+        public IEnumerable<UserDto> GetAll(UserQueryModel queryModel = null)
         {
-            var users = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
-            return users;
+            if (queryModel == null)
+            {
+                var users = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
+                return users;
+            }
+            
+            var filterRule = GetFilterRule(queryModel);
+            var sortRule = GetSortRule(queryModel);
+
+            QueryParameters<UserEntity> queryParameters = new QueryParameters<UserEntity>()
+            {
+                FilterRule = filterRule,
+                SortRule = sortRule
+            };
+
+            var userEntities = _unitOfWork.GetRepository<UserEntity>().GetAll(queryParameters);
+            var userDtos = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(userEntities);
+            return userDtos;
         }
 
         public void Update(UserEntity user)
@@ -58,24 +74,6 @@ namespace ZooShop.Website.Home.Business
                 throw new ArgumentException(nameof(UserEntity), "User Id should be positive");
             _unitOfWork.GetRepository<UserEntity>().Update(user);
             _unitOfWork.Save();
-        }
-
-        public IEnumerable<UserDto> GetWithQueryParameters(UserQueryModel queryModel)
-        {
-            var filterRule = GetFilterRule(queryModel);
-            var sortRule = GetSortRule(queryModel);
-            var includeRule = GetIncludeRule(queryModel);
-
-            QueryParameters<UserEntity> queryParameters = new QueryParameters<UserEntity>()
-            {
-                FilterRule = filterRule,
-                SortRule = sortRule,
-                IncludeRule = includeRule
-            };
-
-            var userEntities = _unitOfWork.GetRepository<UserEntity>().Get(queryParameters);
-            var userDtos = GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(userEntities);
-            return userDtos;
         }
 
         private FilterRule<UserEntity> GetFilterRule(UserQueryModel queryModel)
@@ -121,15 +119,10 @@ namespace ZooShop.Website.Home.Business
         {
             SortRule<UserEntity> sortRule = new SortRule<UserEntity>
             {
-                Order = queryModel.SortOrder
+                Order = SortOrder.Ascending
             };
 
             return sortRule;
-        }
-
-        private IncludeRule<UserEntity> GetIncludeRule(UserQueryModel queryModel)
-        {
-            return new IncludeRule<UserEntity>();
         }
 
         private static Mapper GetMapper()

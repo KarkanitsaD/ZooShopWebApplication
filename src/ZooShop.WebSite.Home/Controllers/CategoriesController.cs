@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data.Entities;
 
@@ -12,7 +13,7 @@ namespace ZooShop.Website.Home.Controllers
     public class CategoriesController : ControllerBase
     {
 
-        private ICategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         public CategoriesController(ICategoryService categoryService)
         {

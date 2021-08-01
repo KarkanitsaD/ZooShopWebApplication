@@ -22,14 +22,14 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<UserDto> Get([FromQuery]UserQueryModel queryModel)
+        public IEnumerable<UserDto> Get([FromQuery] UserQueryModel queryModel = null)
         {
             if (queryModel==null || !queryModel.IsValidToFilter())
             {
                 return _userService.GetAll();
             }
 
-            return _userService.GetWithQueryParameters(queryModel);
+            return _userService.GetAll(queryModel);
         }
 
         // GET api/<UsersController>/5
