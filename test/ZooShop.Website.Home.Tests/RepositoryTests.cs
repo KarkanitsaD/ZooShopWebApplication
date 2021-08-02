@@ -233,7 +233,6 @@ namespace ZooShop.Website.Home.Tests
                 }
             };
 
-            var u = _repository.GetAll();
 
             //Act
             var usersCollection  = _repository.GetAll(queryParameters);

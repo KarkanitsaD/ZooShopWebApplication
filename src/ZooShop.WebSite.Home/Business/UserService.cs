@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoMapper;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Mappers;
 using ZooShop.Website.Home.Business.Models;
@@ -42,14 +41,14 @@ namespace ZooShop.Website.Home.Business
 
         public UserDto Get(int id)
         {
-            return new UserMapper().GetMapper().Map<UserEntity, UserDto>(_unitOfWork.GetRepository<UserEntity>().Get(id));
+            return new UserMapperConfiguration().GetMapper().Map<UserEntity, UserDto>(_unitOfWork.GetRepository<UserEntity>().Get(id));
         }
 
         public IEnumerable<UserDto> GetAll(UserQueryModel queryModel = null)
         {
             if (queryModel == null)
             {
-                var users = new UserMapper().GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
+                var users = new UserMapperConfiguration().GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(_unitOfWork.GetRepository<UserEntity>().GetAll());
                 return users;
             }
             
@@ -63,7 +62,7 @@ namespace ZooShop.Website.Home.Business
             };
 
             var userEntities = _unitOfWork.GetRepository<UserEntity>().GetAll(queryParameters);
-            var userDtos = new UserMapper().GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(userEntities);
+            var userDtos = new UserMapperConfiguration().GetMapper().Map<IEnumerable<UserEntity>, List<UserDto>>(userEntities);
             return userDtos;
         }
 

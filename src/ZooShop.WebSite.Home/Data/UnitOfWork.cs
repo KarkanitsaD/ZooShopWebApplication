@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooShop.Website.Home.Data.Contracts;
 
 
@@ -15,9 +16,14 @@ namespace ZooShop.Website.Home.Data
             _repositories = new Dictionary<string, object>();
         }
 
-        public void Save()
+        public int Save()
         {
-            _context.SaveChanges();
+            return _context.SaveChanges();
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         public IRepository<T> GetRepository<T>() where T : class, new()

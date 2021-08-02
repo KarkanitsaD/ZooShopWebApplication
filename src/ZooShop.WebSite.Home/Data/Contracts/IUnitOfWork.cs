@@ -1,8 +1,11 @@
-﻿namespace ZooShop.Website.Home.Data.Contracts
+﻿using System.Threading.Tasks;
+
+namespace ZooShop.Website.Home.Data.Contracts
 {
     public interface IUnitOfWork
     {
-        void Save();
+        int Save();
+        Task<int> SaveAsync();
         IRepository<T> GetRepository<T>() where T : class, new();
     }
 }
