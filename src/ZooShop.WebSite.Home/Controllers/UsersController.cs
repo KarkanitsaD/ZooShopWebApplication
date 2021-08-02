@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Business.Models;
 using ZooShop.Website.Home.Business.QueryModels;
@@ -22,26 +23,26 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<UserDto> Get([FromQuery] UserQueryModel queryModel = null)
+        public async Task<IEnumerable<UserDto>> Get([FromQuery] UserQueryModel queryModel = null)
         {
             if (queryModel==null || !queryModel.IsValidToFilter())
             {
-                return _userService.GetAll();
+                return await _userService.GetAllAsync();
             }
 
-            return _userService.GetAll(queryModel);
+            return await _userService.GetAllAsync(queryModel);
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public UserDto Get(int id)
+        public async Task<UserDto> Get(int id)
         {
-            return _userService.Get(id);
+            return await _userService.GetAsync(id);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] UserEntity user)
+        public async Task Post([FromBody] UserEntity user)
         {
             if (user == null)
             {
@@ -51,14 +52,14 @@ namespace ZooShop.Website.Home.Controllers
             {
                 throw new ArgumentException("Not valid model");
             }
-            _userService.Create(user); 
+            await _userService.CreateAsync(user); 
             Response.StatusCode = 201;
             
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put([FromBody] UserEntity user)
+        [HttpPut]
+        public async Task Put([FromBody] UserEntity user)
         {
             if (user == null)
             {
@@ -67,18 +68,17 @@ namespace ZooShop.Website.Home.Controllers
             if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
             {
                 throw new ArgumentException("Not valid model");
-            }
-
-            _userService.Update(user);
+            } 
+            await _userService.UpdateAsync(user);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             if (id > 1)
             {
-                _userService.Delete(id);
+                await _userService.DeleteAsync(id);
             }
             else
             {

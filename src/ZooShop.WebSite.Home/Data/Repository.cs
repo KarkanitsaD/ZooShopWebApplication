@@ -54,11 +54,11 @@ namespace ZooShop.Website.Home.Data
 
         public void Update(T item)
         {
-            _context.Entry(item).State = EntityState.Modified;
+            _table.Update(item);
         }
         public async Task UpdateAsync(T item)
         {
-            await Task.Run(() => _context.Entry(item).State = EntityState.Modified);
+            await Task.Run(() => _table.Update(item));
         }
 
         public T Get(int id)
