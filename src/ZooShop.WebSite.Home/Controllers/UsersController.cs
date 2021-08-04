@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooShop.Website.Home.Business.Contracts;
-using ZooShop.Website.Home.Business.DTOs;
+using ZooShop.Website.Home.Business.Models;
+using ZooShop.Website.Home.Business.QueryModels;
 using ZooShop.Website.Home.Data.Entities;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ZooShop.Website.Home.Controllers
 {
@@ -13,7 +14,7 @@ namespace ZooShop.Website.Home.Controllers
     public class UsersController : ControllerBase
     {
 
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public UsersController(IUserService userService)
         {
@@ -22,37 +23,67 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<UserDto> Get()
+        public async Task<IEnumerable<UserDto>> Get([FromQuery] UserQueryModel queryModel = null)
         {
-            return _userService.GetAll();
+            if (queryModel==null || !queryModel.IsValidToFilter())
+            {
+                return await _userService.GetAllAsync();
+            }
+
+            return await _userService.GetAllAsync(queryModel);
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public UserEntity Get(int id)
+        public async Task<UserDto> Get(int id)
         {
-            return _userService.Get(id);
+            return await _userService.GetAsync(id);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] UserEntity user)
+        public async Task Post([FromBody] UserEntity user)
         {
-            _userService.Create(user);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(UserEntity), "User can't be null");
+            }
+            if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
+            {
+                throw new ArgumentException("Not valid model");
+            }
+            await _userService.CreateAsync(user); 
+            Response.StatusCode = 201;
+            
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put([FromBody] UserEntity user)
+        [HttpPut]
+        public async Task Put([FromBody] UserEntity user)
         {
-            _userService.Update(user);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(UserEntity), "User can't be null");
+            }
+            if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.PasswordHash))
+            {
+                throw new ArgumentException("Not valid model");
+            } 
+            await _userService.UpdateAsync(user);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _userService.Delete(id);
+            if (id > 1)
+            {
+                await _userService.DeleteAsync(id);
+            }
+            else
+            {
+                throw new ArgumentException("Not valid user id");
+            }
         }
     }
 }

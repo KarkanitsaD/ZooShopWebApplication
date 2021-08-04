@@ -13,7 +13,7 @@ namespace ZooShop.Website.Home.Controllers
     public class ProductsController : ControllerBase
     {
 
-        private IProductService _productService;
+        private readonly IProductService _productService;
 
         public ProductsController(IProductService productService)
         {
@@ -22,9 +22,15 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<ProductEntity> Get()
+        public IEnumerable<ProductEntity> Get([FromQuery]string title)
         {
-            return _productService.GetAll();
+            if(title == null)
+                return _productService.GetAll();
+            else
+            {
+                var x = _productService.GetWithFilter(title);
+                return x;
+            }
         }
 
         // GET api/<ProductsController>/5

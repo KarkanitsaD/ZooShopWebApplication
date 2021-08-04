@@ -11,8 +11,7 @@ namespace ZooShop.Website.Home.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-
-        private IOrderService _orderService;
+        private readonly IOrderService _orderService;
 
         public OrdersController(IOrderService orderService)
         {
@@ -22,8 +21,23 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<OrdersController>
         [HttpGet]
-        public IEnumerable<OrderEntity> Get()
+        public IEnumerable<OrderEntity> Get
+            (
+            [FromQuery] int? userId,
+            [FromQuery] int? statusId,
+            [FromQuery] string firstname,
+            [FromQuery] string surname,
+            [FromQuery] string lastname,
+            [FromQuery] string email,
+            [FromQuery] string phone,
+            [FromQuery] string country,
+            [FromQuery] string city,
+            [FromQuery] string street,
+            [FromQuery] string house,
+            [FromQuery] string flat
+        )
         {
+            
             return _orderService.GetAll();
         }
 

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ZooShop.Website.Home.Data.Entities
 {
@@ -14,8 +12,7 @@ namespace ZooShop.Website.Home.Data.Entities
             Products = new HashSet<ProductEntity>();
         }
 
-        public long Id { get; set; }
-        //public long CartId { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Surname { get; set; }
@@ -26,7 +23,6 @@ namespace ZooShop.Website.Home.Data.Entities
 
 
         public virtual ICollection<CartItemEntity> CartItems { get; set; }
-        //public virtual Cart Cart { get; set; }
         public virtual ICollection<OrderEntity> Orders { get; set; }
         public virtual ICollection<ProductEntity> Products { get; set; }
     }

@@ -5,8 +5,9 @@ using Microsoft.Extensions.Hosting;
 using ZooShop.Website.Home.Business;
 using ZooShop.Website.Home.Business.Contracts;
 using ZooShop.Website.Home.Data;
+using ZooShop.Website.Home.Data.Contracts;
 
-namespace ZooShop.Website.Home.WebSite.Home
+namespace ZooShop.Website.Home
 {
     public class Startup
     {
@@ -14,7 +15,8 @@ namespace ZooShop.Website.Home.WebSite.Home
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<UnitOfWork>();
+            services.AddTransient<ZooShopContext>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IOrderStatusService, OrderStatusService>();
             services.AddTransient<IOrderService, OrderService>();
@@ -29,7 +31,7 @@ namespace ZooShop.Website.Home.WebSite.Home
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }            
+            }
 
 
             app.UseHttpsRedirection();

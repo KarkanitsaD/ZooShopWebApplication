@@ -17,7 +17,6 @@ namespace ZooShop.Website.Home.Data
         {
         }
 
-        //public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CategoryEntity> Categories { get; set; }
         public virtual DbSet<OrderEntity> Orders { get; set; }        
         public virtual DbSet<OrderStatusEntity> OrderStatuses { get; set; }
@@ -40,7 +39,6 @@ namespace ZooShop.Website.Home.Data
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
@@ -122,27 +120,6 @@ namespace ZooShop.Website.Home.Data
                     .HasDefaultValueSql("(getdate())");
             });
 
-
-            //modelBuilder.Entity<Product>()
-            //    .HasMany(p => p.Carts)
-            //    .WithMany(c => c.Products)
-            //    .UsingEntity<CartItem>(
-            //    j => j
-            //         .HasOne(ci => ci.Cart)
-            //         .WithMany(c => c.CartItems)
-            //         .HasForeignKey(ci => ci.CartId),
-            //    j => j
-            //         .HasOne(ci => ci.Product)
-            //         .WithMany(p => p.CartItems)
-            //         .HasForeignKey(ci => ci.ProductId),
-            //    j =>
-            //    {
-            //          j.Property(pt => pt.Quantity).HasDefaultValue(1);
-            //          j.HasKey(t => new { t.ProductId, t.CartId });
-            //          j.ToTable("CartItem");
-            //    }
-            //    );
-
         }
 
         private void ConfigureOrderStatus(ModelBuilder modelBuilder)
@@ -195,13 +172,7 @@ namespace ZooShop.Website.Home.Data
 
                 entity.Property(e => e.IsAdmin)
                     .HasDefaultValue(false);
-            });
-
-            //modelBuilder.Entity<User>()
-            //    .HasOne(u => u.Cart)
-            //    .WithOne(c => c.User)
-            //    .HasForeignKey<Cart>(c => c.Id);
-
+            });           
         }
 
         private void ConfigureOrder(ModelBuilder modelBuilder)

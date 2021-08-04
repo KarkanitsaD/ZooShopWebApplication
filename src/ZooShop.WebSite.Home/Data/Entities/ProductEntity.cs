@@ -15,7 +15,7 @@ namespace ZooShop.Website.Home.Data.Entities
             Orders = new HashSet<OrderEntity>();
         }
 
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
@@ -23,8 +23,6 @@ namespace ZooShop.Website.Home.Data.Entities
         public int? Quantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        
-        //public virtual ICollection<Cart> Carts { get; set; }
 
         public virtual ICollection<UserEntity> Users { get; set; }
         public virtual ICollection<CartItemEntity> CartItems { get; set; }

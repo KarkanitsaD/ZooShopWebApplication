@@ -9,7 +9,7 @@ namespace ZooShop.Website.Home.Data.Entities
             Orders = new HashSet<OrderEntity>();
         }
 
-        public byte Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
 
         public virtual ICollection<OrderEntity> Orders { get; set; }

@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZooShop.Website.Home", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FADBC300-E993-4DC6-A4F9-67AF1175F7F7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{89540C49-65D4-401F-B95D-AA7D61955365}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooShop.Website.Home.Tests", "test\ZooShop.Website.Home.Tests\ZooShop.Website.Home.Tests.csproj", "{C4B9799C-DDA6-4307-A16C-4C42B542CAAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{C9F8EAFA-80E1-4678-93F9-9429496B00EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9F8EAFA-80E1-4678-93F9-9429496B00EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F8EAFA-80E1-4678-93F9-9429496B00EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B9799C-DDA6-4307-A16C-4C42B542CAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B9799C-DDA6-4307-A16C-4C42B542CAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B9799C-DDA6-4307-A16C-4C42B542CAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B9799C-DDA6-4307-A16C-4C42B542CAAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C9F8EAFA-80E1-4678-93F9-9429496B00EB} = {FADBC300-E993-4DC6-A4F9-67AF1175F7F7}
+		{C4B9799C-DDA6-4307-A16C-4C42B542CAAA} = {89540C49-65D4-401F-B95D-AA7D61955365}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AB989A6-AE63-4DC8-BE92-9F2DA27161AE}
