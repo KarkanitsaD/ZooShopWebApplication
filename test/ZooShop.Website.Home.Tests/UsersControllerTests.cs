@@ -23,7 +23,7 @@ namespace ZooShop.Website.Home.Tests
 
         //Get([FromQuery] UserQueryModel queryModel = null)
         [Fact]
-        public void Get_NullQueryModel_ExecuteGetEmptyServiceMethod()
+        public void Get_NullQueryModel_ExecuteGetEmptyParamsServiceMethod()
         {
             //Arrange
             _mockUserService.Setup(s => s.GetAll(It.IsNotNull<UserQueryModel>())).Returns(new List<UserDto>() { new UserDto(), new UserDto() });
@@ -39,7 +39,7 @@ namespace ZooShop.Website.Home.Tests
 
         //Get([FromQuery] UserQueryModel queryModel = null)
         [Fact]
-        public void Get_NotValidQueryModel_ExecuteGetEmptyServiceMethod()
+        public void Get_NotValidQueryModel_ExecuteGetEmptyParamsServiceMethod()
         {
             //Arrange
             _mockUserService.Setup(s => s.GetAll(It.IsNotNull<UserQueryModel>())).Returns(new List<UserDto>() { new UserDto(), new UserDto() });
@@ -55,7 +55,7 @@ namespace ZooShop.Website.Home.Tests
 
         //Get([FromQuery] UserQueryModel queryModel = null)
         [Fact]
-        public void Get_ValidQueryModel_ExecuteGetEmptyServiceMethod()
+        public void Get_ValidQueryModel_ExecuteGetServiceMethodWithParams()
         {
             //Arrange
             _mockUserService.Setup(s => s.GetAll(null)).Returns(new List<UserDto>());

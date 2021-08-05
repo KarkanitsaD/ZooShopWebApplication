@@ -14,7 +14,7 @@ namespace ZooShop.Website.Home.Tests
         private IRepository<UserEntity> _repository;
         private ZooShopContext _context;
 
-        //Get(int id)
+        
         [Theory]
         [InlineData(1, "Dima")]
         [InlineData(2, "Oleg")]
@@ -37,15 +37,14 @@ namespace ZooShop.Website.Home.Tests
             Assert.Equal(expectedFirstName, user.FirstName);
         }
 
-        //GetAll
+        
         [Fact]
         public void GetAll_Users_CheckCountUsers()
         {
             _repository = GetDefaultUserRepository();
-
         }
 
-        //Create(UserEntity user)
+        
         [Fact]
         public void Create_UserEntity_CountsUser()
         {
@@ -61,7 +60,7 @@ namespace ZooShop.Website.Home.Tests
             Assert.Equal(1, _repository.GetAll().Count());
         }
 
-        //CreateRange(List<UserEntity> users)
+        
         [Fact]
         public void CreateRange_UserEntity_CountsUsersEntities()
         {
@@ -88,7 +87,7 @@ namespace ZooShop.Website.Home.Tests
             Assert.Equal(expectedLength, _repository.GetAll().Count());
         }
 
-        //Delete(UserEntity user)
+        
         [Fact]
         public void Delete_UserEntity_CheckAvailability()
         {
@@ -121,7 +120,7 @@ namespace ZooShop.Website.Home.Tests
 
         }
 
-        //Update(UserEntity user)
+        
         [Fact]
         public void Update_UserEntity_CheckChanges()
         {
@@ -141,7 +140,7 @@ namespace ZooShop.Website.Home.Tests
 
         }
 
-        //Update(UserEntity user)
+        
         [Fact]
         public void Update_UserEntityUsingDifferentContexts_CheckChanges()
         {
@@ -161,7 +160,7 @@ namespace ZooShop.Website.Home.Tests
             Assert.Equal("Kirill", _repository.Get(1).FirstName);
         }
 
-        //Update(UserEntity user)
+        
         [Fact]
         public void Update_UserEntityWithSimilarUsersInDB_CheckChanges()
         {
@@ -189,7 +188,7 @@ namespace ZooShop.Website.Home.Tests
             Assert.NotEqual(_repository.Get(1).FirstName, _repository.Get(2).FirstName);
         }
 
-        //Update(UserEntity user)
+        
         [Fact]
         public void Update_UserEntityWithNewUser_CheckChanges()
         {
@@ -233,9 +232,9 @@ namespace ZooShop.Website.Home.Tests
                 }
             };
 
-
             //Act
             var usersCollection  = _repository.GetAll(queryParameters);
+
             //Assert
             Assert.Equal(expectedCollectionSize, usersCollection.Count());
         }

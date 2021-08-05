@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Website.Home.Data.Contracts;
+using ZooShop.Website.Home.Data.Entities;
 using ZooShop.Website.Home.Data.Query;
 
 namespace ZooShop.Website.Home.Data

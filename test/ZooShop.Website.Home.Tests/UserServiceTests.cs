@@ -14,6 +14,7 @@ namespace ZooShop.Website.Home.Tests
     {
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private IUserService _userService;
+
         public UserServiceTests()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();

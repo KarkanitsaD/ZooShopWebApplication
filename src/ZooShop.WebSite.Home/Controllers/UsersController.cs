@@ -23,26 +23,26 @@ namespace ZooShop.Website.Home.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public async Task<IEnumerable<UserDto>> Get([FromQuery] UserQueryModel queryModel = null)
+        public IEnumerable<UserDto> Get([FromQuery] UserQueryModel queryModel = null)
         {
             if (queryModel==null || !queryModel.IsValidToFilter())
             {
-                return await _userService.GetAllAsync();
+                return _userService.GetAll();
             }
 
-            return await _userService.GetAllAsync(queryModel);
+            return _userService.GetAll(queryModel);
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<UserDto> Get(int id)
+        public UserDto Get(int id)
         {
-            return await _userService.GetAsync(id);
+            return _userService.Get(id);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task Post([FromBody] UserEntity user)
+        public void Post([FromBody] UserEntity user)
         {
             if (user == null)
             {
@@ -52,14 +52,14 @@ namespace ZooShop.Website.Home.Controllers
             {
                 throw new ArgumentException("Not valid model");
             }
-            await _userService.CreateAsync(user); 
+            _userService.Create(user); 
             Response.StatusCode = 201;
             
         }
 
         // PUT api/<UsersController>/5
         [HttpPut]
-        public async Task Put([FromBody] UserEntity user)
+        public void Put([FromBody] UserEntity user)
         {
             if (user == null)
             {
@@ -69,16 +69,16 @@ namespace ZooShop.Website.Home.Controllers
             {
                 throw new ArgumentException("Not valid model");
             } 
-            await _userService.UpdateAsync(user);
+            _userService.Update(user);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
             if (id > 1)
             {
-                await _userService.DeleteAsync(id);
+                _userService.Delete(id);
             }
             else
             {

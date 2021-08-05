@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ZooShop.Website.Home.Data.Entities
 {
-    public class UserEntity
+    public class UserEntity : Entity
     {
         public UserEntity()
         {
@@ -12,7 +12,6 @@ namespace ZooShop.Website.Home.Data.Entities
             Products = new HashSet<ProductEntity>();
         }
 
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Surname { get; set; }
