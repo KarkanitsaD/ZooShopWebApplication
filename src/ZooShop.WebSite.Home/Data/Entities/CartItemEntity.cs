@@ -1,9 +1,8 @@
 ﻿
 namespace ZooShop.Website.Home.Data.Entities
 {
-    public class CartItemEntity
+    public class CartItemEntity : Entity
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }

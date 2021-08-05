@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ZooShop.Website.Home.Data.Entities
 {
-    public class ProductEntity
+    public class ProductEntity : Entity
     {
         public ProductEntity()
         {
@@ -15,7 +15,6 @@ namespace ZooShop.Website.Home.Data.Entities
             Orders = new HashSet<OrderEntity>();
         }
 
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
