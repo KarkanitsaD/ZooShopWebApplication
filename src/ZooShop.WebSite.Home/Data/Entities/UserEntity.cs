@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using ZooShop.Website.Home.Data.Contracts;
 
 namespace ZooShop.Website.Home.Data.Entities
 {
-    public class UserEntity : Entity
+    public class UserEntity :  IEntity<int>
     {
         public UserEntity()
         {
@@ -12,6 +13,7 @@ namespace ZooShop.Website.Home.Data.Entities
             Products = new HashSet<ProductEntity>();
         }
 
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Surname { get; set; }

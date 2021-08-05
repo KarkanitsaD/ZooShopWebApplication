@@ -1,7 +1,9 @@
 ﻿
+using ZooShop.Website.Home.Data.Contracts;
+
 namespace ZooShop.Website.Home.Data.Entities
 {
-    public class CartItemEntity
+    public class CartItemEntity: IEntity<int>
     {
         public int Id { get; set; }
         public int UserId { get; set; }
